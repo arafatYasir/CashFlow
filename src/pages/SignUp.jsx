@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -99,6 +100,13 @@ const SignUp = () => {
                             Sign Up
                         </button>
                     </form>
+
+                    <p className="text-gray-400 text-center text-sm mt-4">
+                        Already have an account?{" "}
+                        <Link to="/login" className="text-green-500 cursor-pointer hover:underline">
+                            Login
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
