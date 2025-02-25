@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import { useState } from "react";
 
 const Login = () => {
-    
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // clearing previous message
+        setErrorMessage("");
+
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        console.log(email, password);
+    }
+
     return (
         <div className="font-inter">
             <Header />
@@ -13,7 +27,7 @@ const Login = () => {
                         Welcome to <span className="text-[#16A34A]">CashFlow</span>
                     </h2>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label className="block mb-2">Email</label>
                             <input
@@ -33,6 +47,8 @@ const Login = () => {
                                 placeholder="Enter your password"
                             />
                         </div>
+
+                        <p className="text-[#EF4444] mb-4">{errorMessage}</p>
 
                         <button
                             type="submit"
