@@ -21,32 +21,11 @@ const AuthProvider = ({children}) => {
         return signOut(auth);
     }
 
-    async function createDoc(user) {
-        if(!user) return;
-
-        const userRef = doc(db, "users", user.uid);
-        const userData = await getDoc(userRef);
-
-        if(!userData.exists()) {
-            try {
-                await setDoc(doc(db, "users", user.uid), {
-                    name: user.displayName ? user.displayName : "",
-                    email: user.email ? user.email : "",
-                    createdAt: new Date()
-                });
-            }
-            catch(e) {
-                console.log(e.message);
-            }
-        }
-    }
-
     const authInfo = {
         user,
         createUser,
         signOutUser,
         signInUser,
-        createDoc,
         loading
     };
 

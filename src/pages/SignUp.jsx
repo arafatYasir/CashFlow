@@ -3,14 +3,14 @@ import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
-import auth from "../firebase/firebase.config";
-import { toast, ToastContainer } from "react-toastify";
+import auth, { db } from "../firebase/firebase.config";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    const { createUser } = useContext(AuthContext);
+    const { user, createUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -45,21 +45,47 @@ const SignUp = () => {
         // creating a user
         createUser(email, password)
             .then(() => {
-                // updating users profile
-                updateProfile(auth.currentUser, {
-                    displayName: name
-                })
+                const currentUser = auth.currentUser; // Get the updated user after signup
+
+                // Update user's profile
+                updateProfile(currentUser, { displayName: name })
                     .then(() => {
-                        // navigatig to the dashboard
+                        console.log("Profile Updated");
+
+                        // Create Firestore document
+                        createDoc(currentUser);
+
+                        // Navigate to dashboard
                         navigate("/");
                     })
                     .catch(error => {
-                        setErrorMessage(error.message)
-                    })
+                        setErrorMessage(error.message);
+                    });
             })
             .catch(error => {
                 console.log(error.message)
             })
+    }
+
+    async function createDoc(user) {
+        if (!user) return;
+
+        const userRef = doc(db, "users", user.uid);
+        const userData = await getDoc(userRef);
+
+        if (!userData.exists()) {
+            try {
+                await setDoc(doc(db, "users", user.uid), {
+                    name: user.displayName ? user.displayName : "",
+                    email: user.email ? user.email : "",
+                    createdAt: new Date()
+                });
+                console.log("Doc created successfully");
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        }
     }
 
     return (
