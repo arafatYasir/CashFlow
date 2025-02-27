@@ -2,6 +2,9 @@ import { useContext, useState } from "react";
 import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
+import { updateProfile } from "firebase/auth";
+import auth from "../firebase/firebase.config";
+import { toast, ToastContainer } from "react-toastify";
 
 const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -41,14 +44,22 @@ const SignUp = () => {
 
         // creating a user
         createUser(email, password)
-        .then(res => {
-            console.log(res.user);
-            navigate("/");
-
-        })
-        .catch(error => {
-            console.log(error.message)
-        })
+            .then(() => {
+                // updating users profile
+                updateProfile(auth.currentUser, {
+                    displayName: name
+                })
+                    .then(() => {
+                        // navigatig to the dashboard
+                        navigate("/");
+                    })
+                    .catch(error => {
+                        setErrorMessage(error.message)
+                    })
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
     }
 
     return (
