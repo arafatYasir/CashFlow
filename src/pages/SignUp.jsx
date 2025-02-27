@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    const { createUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,24 +20,35 @@ const SignUp = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const condition = e.target.condition.checked;
-        
+
         // checking name length
-        if(name.length < 4) {
+        if (name.length < 4) {
             setErrorMessage("Name must contain at least 4 characters.");
             return;
         }
 
         // checking password's strength
-        if(!passwordRegex.test(password)) {
+        if (!passwordRegex.test(password)) {
             setErrorMessage("Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@, $, !, %, , ?, &)");
             return;
         }
 
         // checking if condition is accepted
-        if(!condition) {
+        if (!condition) {
             setErrorMessage("Please accept our terms and condition.");
             return;
         }
+
+        // creating a user
+        createUser(email, password)
+        .then(res => {
+            console.log(res.user);
+            navigate("/");
+
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
     }
 
     return (

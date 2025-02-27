@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
+
+    const { signInUser } = useContext(AuthContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,6 +19,33 @@ const Login = () => {
         const password = e.target.password.value;
 
         console.log(email, password);
+
+        // sign in with email and password
+        signInUser(email, password)
+            .then(res => {
+                console.log(res);
+                navigate("/");
+            })
+            .catch(error => {
+                const errorCode = error.code;
+                if (errorCode === "auth/invalid-email") {
+                    setErrorMessage("The email address is not valid.")
+                } else if (errorCode === "auth/user-not-found") {
+                    setErrorMessage("No user found with this email. Please sign up first.");
+                } else if (errorCode === "auth/wrong-password") {
+                    setErrorMessage("Incorrect password. Please try again.");
+                } else if (errorCode === "auth/too-many-requests") {
+                    setErrorMessage("Too many failed attempts. Try again later.");
+                } else if (errorCode === "auth/network-request-failed") {
+                    setErrorMessage("Network error. Please check your internet connection.");
+                } else if (errorCode === "auth/email-already-in-use") {
+                    setErrorMessage("This email is already in use. Try signing in instead.");
+                } else if (errorCode === "auth/invalid-credential") {
+                    setErrorMessage("Invalid email or password. Please check your details.");
+                } else if (errorCode === "auth/account-exists-with-different-credential") {
+                    setErrorMessage("An account already exists with this email but a different sign-in method. Try using that method.");
+                }
+            })
     }
 
     return (
