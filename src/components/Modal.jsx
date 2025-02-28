@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Modal = ({ isOpen, onClose, onSubmit, modalType }) => {
     const [name, setName] = useState("");
@@ -10,6 +11,12 @@ const Modal = ({ isOpen, onClose, onSubmit, modalType }) => {
     if (!isOpen) return null;
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        // checking if all values are present
+        if(!name || !amount || !date || !tag) {
+            toast.error("All fields are required.");
+            return;
+        }
         // seding all values
         onSubmit({ name, amount, date, tag }, modalType);
 

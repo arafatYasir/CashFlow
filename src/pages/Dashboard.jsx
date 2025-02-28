@@ -27,9 +27,6 @@ const Dashboard = () => {
         // adding it to the firestore database
         addTransaction(newTransaction);
     }
-
-    console.log("My transactions: ", transactions);
-
     // a function to set a transaction on the database
     async function addTransaction(transaction) {
         try {
@@ -37,13 +34,11 @@ const Dashboard = () => {
                 collection(db, `users/${user.uid}/transactions`),
                 transaction
             );
-            console.log("Document written with ID: ", docRef.id);
             // updating the new transaction inside our state
             setTransactions([...transactions, transaction]);
             toast.success("Transaction Added!");
         }
         catch (error) {
-            console.log(error.message);
             toast.error("Couldn't add transaction");
         }
     }
@@ -92,10 +87,11 @@ const Dashboard = () => {
     }, [transactions]);
 
     return (
-        <div className="font-inter">
+        <div className="min-h-screen font-inter">
             <Header />
 
-            {loading ? <p className="container mx-auto text-xl font-semibold">Loading</p>
+            {loading ?
+                <div className="min-h-screen flex items-center justify-center"><span className="text-xl loading loading-infinity loading-xl"></span></div>
                 :
                 <section className="container mx-auto">
                     <Cards handleSubmit={handleSubmit} income={income} expense={expense} balance={balance} />

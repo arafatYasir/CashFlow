@@ -18,12 +18,9 @@ const Login = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        console.log(email, password);
-
         // sign in with email and password
         signInUser(email, password)
             .then(res => {
-                console.log(res);
                 navigate("/");
             })
             .catch(error => {

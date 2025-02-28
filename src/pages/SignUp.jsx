@@ -50,8 +50,6 @@ const SignUp = () => {
                 // Update user's profile
                 updateProfile(currentUser, { displayName: name })
                     .then(() => {
-                        console.log("Profile Updated");
-
                         // Create Firestore document
                         createDoc(currentUser);
 
@@ -63,7 +61,7 @@ const SignUp = () => {
                     });
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
             })
     }
 
@@ -80,10 +78,9 @@ const SignUp = () => {
                     email: user.email ? user.email : "",
                     createdAt: new Date()
                 });
-                console.log("Doc created successfully");
             }
             catch (e) {
-                console.log(e.message);
+                // console.log(e.message);
             }
         }
     }

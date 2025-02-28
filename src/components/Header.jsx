@@ -6,7 +6,7 @@ const Header = () => {
     const {user, signOutUser} = useContext(AuthContext);
     return (
         <div className="bg-[#16A34A] py-4">
-            <div className="container mx-auto flex items-center justify-between">
+            <div className="container mx-auto px-5 md:px-0 flex items-center justify-between">
                 <h2 className="text-3xl font-medium">CashFlow</h2>
                 <div>
                     {
