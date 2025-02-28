@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useContext, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -18,9 +19,15 @@ const Login = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
+        // checkin if email and password field is empty
+        if(!email || !password) {
+            toast.error("Please provide all informations!");
+            return;
+        }
+
         // sign in with email and password
         signInUser(email, password)
-            .then(res => {
+            .then(() => {
                 navigate("/");
             })
             .catch(error => {
@@ -63,6 +70,7 @@ const Login = () => {
                                 name="email"
                                 className="w-full px-4 py-2 bg-[#0D1117] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Enter your email"
+                                required
                             />
                         </div>
 
@@ -73,6 +81,7 @@ const Login = () => {
                                 name="password"
                                 className="w-full px-4 py-2 bg-[#0D1117] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Enter your password"
+                                required
                             />
                         </div>
 
@@ -98,6 +107,7 @@ const Login = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

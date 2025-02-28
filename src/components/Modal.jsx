@@ -14,7 +14,7 @@ const Modal = ({ isOpen, onClose, onSubmit, modalType }) => {
         e.preventDefault();
         // checking if all values are present
         if(!name || !amount || !date || !tag) {
-            toast.error("All fields are required.");
+            toast.error("Please provide all informations!");
             return;
         }
         // seding all values

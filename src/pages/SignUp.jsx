@@ -5,6 +5,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import auth, { db } from "../firebase/firebase.config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify";
 
 const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -23,6 +24,12 @@ const SignUp = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const condition = e.target.condition.checked;
+
+        // checking if all fields are filled up
+        if(!name || !email || !password || !condition) {
+            toast.error("Please provide all informations!");
+            return;
+        }
 
         // checking name length
         if (name.length < 4) {
@@ -158,6 +165,7 @@ const SignUp = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

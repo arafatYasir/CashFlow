@@ -25,6 +25,7 @@ const ResetPassword = () => {
                 toast.error(error.message);
             })
     }
+    
     return (
         <div className="min-h-screen font-inter">
             <Header />
