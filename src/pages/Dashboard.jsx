@@ -5,6 +5,7 @@ import { db } from "../firebase/firebase.config";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
+import TransactionsTable from "../components/TransactionsTable";
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(false);
@@ -98,6 +99,7 @@ const Dashboard = () => {
                 :
                 <section className="container mx-auto">
                     <Cards handleSubmit={handleSubmit} income={income} expense={expense} balance={balance} />
+                    <TransactionsTable transactions={transactions} />
                 </section>}
             <ToastContainer />
         </div>

@@ -78,9 +78,23 @@ const Modal = ({ isOpen, onClose, onSubmit, modalType }) => {
                         required
                     >
                         <option value="" disabled>Select Tag</option>
-                        <option value="Salary">Salary</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="Investment">Investment</option>
+                        {modalType === "Income" ?
+                            <>
+                                <option value="Salary">Salary</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Investment">Investment</option>
+                            </>
+                            :
+                            <>
+                                <option value="Food">Food</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Rent">Healthcare</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="School/College Fees">School/College Fees</option>
+                                <option value="Subscriptions">Subscriptions</option>
+                            </>}
                     </select>
 
                     {/* Submit Button */}
