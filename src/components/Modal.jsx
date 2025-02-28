@@ -31,7 +31,7 @@ const Modal = ({ isOpen, onClose, onSubmit, modalType }) => {
     }
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/0 backdrop-blur-sm z-50">
             <div className="bg-gray-900 text-white p-6 rounded-2xl shadow-xl w-96 relative">
                 {/* Close Button */}
                 <div className="flex items-center justify-between mb-4">

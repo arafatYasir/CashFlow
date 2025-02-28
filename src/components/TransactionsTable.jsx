@@ -23,7 +23,7 @@ const TransactionsTable = ({ transactions }) => {
     });
 
     return (
-        <div className="max-w-4xl mx-auto p-4 bg-gray-900 text-white rounded-xl shadow-lg">
+        <div className="max-w-4xl mt-16 mx-auto p-4 bg-gray-900 text-white rounded-xl shadow-lg">
             <h2 className="text-2xl font-semibold text-center mb-4">Transaction History</h2>
 
             {/* Sorting Dropdown */}

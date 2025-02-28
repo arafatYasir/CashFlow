@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import TransactionsTable from "../components/TransactionsTable";
+import TransactionsChart from "../components/TransactionsChart";
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(false);
@@ -90,13 +91,17 @@ const Dashboard = () => {
         <div className="min-h-screen font-inter">
             <Header />
 
-            {loading ?
+            {
+                loading 
+                ?
                 <div className="min-h-screen flex items-center justify-center"><span className="text-xl loading loading-infinity loading-xl"></span></div>
                 :
                 <section className="container mx-auto">
                     <Cards handleSubmit={handleSubmit} income={income} expense={expense} balance={balance} />
+                    <TransactionsChart transactions={transactions} />
                     <TransactionsTable transactions={transactions} />
-                </section>}
+                </section>
+            }
             <ToastContainer />
         </div>
     );

@@ -30,7 +30,7 @@ const Cards = ({ handleSubmit, income, balance, expense }) => {
                 </CardContent>
                 <div className="mt-4">
                     <button
-                        className="w-full py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                        className="w-full py-2 px-4 bg-green-500 rounded-lg hover:bg-green-600"
                         onClick={() => openModal("Income")}
                     >
                         Add Income
@@ -49,7 +49,7 @@ const Cards = ({ handleSubmit, income, balance, expense }) => {
                 </CardContent>
                 <div className="mt-4">
                     <button
-                        className="w-full py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                        className="w-full py-2 px-4 bg-red-500 rounded-lg hover:bg-red-600"
                         onClick={() => openModal("Expense")}
                     >
                         Add Expense
@@ -62,7 +62,7 @@ const Cards = ({ handleSubmit, income, balance, expense }) => {
                 <CardContent>
                     <div>
                         <h2 className="text-lg font-semibold">Balance</h2>
-                        <p className="text-2xl font-bold text-white">${balance}</p>
+                        <p className={`text-2xl font-bold ${balance < 0 ? "text-red-500": ""}`}>${balance}</p>
                     </div>
                     <DollarSign size={32} className="text-green-300" />
                 </CardContent>
