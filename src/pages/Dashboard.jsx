@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import Cards from "../components/Cards";
 import Header from "../components/Header";
 import { db } from "../firebase/firebase.config";
@@ -8,13 +8,11 @@ import { toast, ToastContainer } from "react-toastify";
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(false);
+    const [income, setIncome] = useState(0);
+    const [expense, setExpense] = useState(0);
+    const [balance, setBalance] = useState(0);
     const [transactions, setTransactions] = useState([]);
-    const {user} = useContext(AuthContext);
-
-    useEffect(() => {
-        // loading all the transactions
-        loadTransactions();
-    }, []);
+    const { user } = useContext(AuthContext);
 
     const handleSubmit = (values, type) => {
         // creating a new transaction
@@ -39,6 +37,8 @@ const Dashboard = () => {
                 transaction
             );
             console.log("Document written with ID: ", docRef.id);
+            // updating the new transaction inside our state
+            setTransactions([...transactions, transaction]);
             toast.success("Transaction Added!");
         }
         catch (error) {
@@ -52,23 +52,53 @@ const Dashboard = () => {
         setLoading(true);
 
         const q = query(collection(db, `users/${user.uid}/transactions`));
-        const querySnapshot = await getDoc(q);
+        const querySnapshot = await getDocs(q);
         let tempTransactions = [];
 
         querySnapshot.forEach(doc => {
             tempTransactions.push(doc.data());
         })
-        setTransactions(tempTransactions)
+        setTransactions(tempTransactions);
+        toast.success("Transactions loaded!");
         setLoading(false);
     }
+
+    // a function to calculate the balance
+    const calculateBalance = () => {
+        let totalIncome = 0, totalExpense = 0;
+
+        transactions.forEach(t => {
+            if (t.type === "Income") totalIncome += t.amount;
+            else totalExpense += t.amount;
+        });
+
+        // setting the income
+        setIncome(totalIncome);
+        // setting the expense
+        setExpense(totalExpense);
+        // setting the balance
+        setBalance(totalIncome - totalExpense);
+    }
+
+    useEffect(() => {
+        // loading all the transactions
+        loadTransactions();
+    }, []);
+
+    useEffect(() => {
+        // calculating the blance
+        calculateBalance();
+    }, [transactions]);
 
     return (
         <div className="font-inter">
             <Header />
-            
-            <section className="container mx-auto">
-                <Cards handleSubmit={handleSubmit} income={50} expense={10} balance={40} />
-            </section>
+
+            {loading ? <p className="container mx-auto text-xl font-semibold">Loading</p>
+                :
+                <section className="container mx-auto">
+                    <Cards handleSubmit={handleSubmit} income={income} expense={expense} balance={balance} />
+                </section>}
             <ToastContainer />
         </div>
     );
