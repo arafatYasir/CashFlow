@@ -24,6 +24,3 @@
  - **Authentication:** Firebase Authentication
  - **Database:** Firebase Firestore for storing user transactions and data
  - **Charting Library:** [Recharts](https://recharts.org/)
-
-### License
-This project is licensed under MIT License.
