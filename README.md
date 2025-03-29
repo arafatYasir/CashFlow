@@ -1,3 +1,4 @@
+![cashflow](https://github.com/user-attachments/assets/c5e6b254-79fb-4084-a2ae-bb874c3b48d7)
 # CashFlow - Personal Finance Tracker
 
 ### Overview
